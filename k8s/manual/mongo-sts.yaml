@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  selector:
+    matchLabels:
+      app: mongo
+  serviceName: "mongo"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo
+          image: mongo
+          command:
+            - mongod
+            - "--bind_ip_all"
+            - "--replSet"
+            - rs0
+            - "--dbpath"
+            - "/data/db"
+            - "--logpath"
+            - "/log/mongo/mongo.log"
+            - "--logappend"
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: data-volume
+              mountPath: /data/db
+            - name: logs-volume
+              mountPath: /log/mongo
+  volumeClaimTemplates:
+    - metadata:
+        name: data-volume
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        selector:
+          matchLabels:
+            type: data
+        storageClassName: local-storage
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: logs-volume
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        selector:
+          matchLabels:
+            type: log
+        storageClassName: local-storage
+        resources:
+          requests:
+            storage: 1Gi
