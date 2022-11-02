@@ -24,6 +24,10 @@
 		<kotlin-logging.version>3.0.0</kotlin-logging.version>
 		<mockk.version>1.13.2</mockk.version>
 		<springmockk.version>3.1.1</springmockk.version>
+		<jjwt.version>0.11.5</jjwt.version>
+		<jackson.version>2.13.4.2</jackson.version>
+		<snakeyaml.version>1.33</snakeyaml.version>
+		<kotest.version>5.5.2</kotest.version>
 	</properties>
 
 	<dependencyManagement>
@@ -32,6 +36,32 @@
 				<groupId>io.github.microutils</groupId>
 				<artifactId>kotlin-logging-jvm</artifactId>
 				<version>${kotlin-logging.version}</version>
+			</dependency>
+
+			<!-- O T H E R S -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- J W T -->
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-api</artifactId>
+				<version>${jjwt.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-impl</artifactId>
+				<version>${jjwt.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
+				<version>${jjwt.version}</version>
 			</dependency>
 
 			<!-- T E S T  -->
@@ -48,6 +78,14 @@
 				<version>${springmockk.version}</version>
 				<scope>test</scope>
 			</dependency>
+
+			<dependency>
+				<groupId>io.kotest</groupId>
+				<artifactId>kotest-assertions-core-jvm</artifactId>
+				<version>${kotest.version}</version>
+				<scope>test</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
