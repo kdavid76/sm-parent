@@ -11,7 +11,7 @@
 
 	<groupId>com.sportmanagement.bkk</groupId>
 	<artifactId>sm-parent</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>sm-parent</name>
 	<description>Parent project for Sport Management server side applications</description>
 	<packaging>pom</packaging>
@@ -148,7 +148,7 @@
 
 	<scm>
 		<developerConnection>scm:git:https://github.com/kdavid76/sm-parent.git</developerConnection>
-	  <tag>sm-parent-0.0.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<distributionManagement>
