@@ -27,8 +27,9 @@
 		<jackson.jsr310.version>2.13.4</jackson.jsr310.version>
 		<snakeyaml.version>1.33</snakeyaml.version>
 		<kotest.version>5.5.2</kotest.version>
-		<klint.version>1.15.2</klint.version>
+		<klint.version>1.16.0</klint.version>
 		<maven.release.plugin.version>3.0.0-M6</maven.release.plugin.version>
+		<development.connection.url>scm:git:git@github.com:kdavid76/sm-parent.git</development.connection.url>
 	</properties>
 
 	<dependencyManagement>
@@ -37,6 +38,12 @@
 				<groupId>io.github.microutils</groupId>
 				<artifactId>kotlin-logging-jvm</artifactId>
 				<version>${kotlin-logging.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-stdlib</artifactId>
+				<version>${kotlin.version}</version>
 			</dependency>
 
 			<!-- O T H E R S -->
@@ -51,6 +58,7 @@
 				<artifactId>jackson-datatype-jsr310</artifactId>
 				<version>${jackson.jsr310.version}</version>
 			</dependency>
+
 			<!-- J W T -->
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
@@ -128,9 +136,8 @@
 					</configuration>
 					<executions>
 						<execution>
-							<id>format-and-check</id>
+							<id>check</id>
 							<goals>
-								<goal>format</goal>
 								<goal>check</goal>
 							</goals>
 						</execution>
@@ -147,9 +154,10 @@
 	</build>
 
 	<scm>
-		<developerConnection>scm:git:https://github.com/kdavid76/sm-parent.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
+		<developerConnection>${development.connection.url}</developerConnection>
+		<url>https://github.com/kdavid76/sm-parent</url>
+		<tag>HEAD</tag>
+	</scm>
 
 	<distributionManagement>
 		<repository>
@@ -163,4 +171,31 @@
 			<url>https://sportsmanagement.jfrog.io/artifactory/bkk-libs-snapshot-local</url>
 		</snapshotRepository>
 	</distributionManagement>
+
+	<profiles>
+		<profile>
+			<id>scm-release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<configuration>
+							<tagNameFormat>v@{project.version}</tagNameFormat>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>versions-maven-plugin</artifactId>
+						<configuration>
+							<generateBackupPoms>true</generateBackupPoms>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 </project>
