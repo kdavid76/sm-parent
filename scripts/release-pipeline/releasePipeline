@@ -45,17 +45,21 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Push release to GitHub') {
-            steps {
-                sh('git add .')
-                sh("git commit -m 'SM-PARENT: Release ${NEXT_RELEASE}'")
-                sh("git tag -a 'v@${NEXT_RELEASE}' -m 'Release ${NEXT_RELEASE}' HEAD")
-                sh('git push --follow-tags')
-            }
-        }
-        stage('Push release to artifactory') {
-            steps {
-                sh 'mvn deploy'
+        stage('Deploy') {
+            parallel {
+                stage('Push to GitHub') {
+                    steps {
+                        sh('git add .')
+                        sh("git commit -m 'SM-PARENT: Release ${NEXT_RELEASE}'")
+                        sh("git tag -a 'v@${NEXT_RELEASE}' -m 'Release ${NEXT_RELEASE}' HEAD")
+                        sh('git push --follow-tags')
+                    }
+                }
+                stage('Push to artifactory') {
+                    steps {
+                        sh 'mvn deploy'
+                    }
+                }
             }
         }
         stage('Calculate next snapshot version') {
