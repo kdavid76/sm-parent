@@ -11,7 +11,7 @@
 
 	<groupId>com.sportmanagement.bkk</groupId>
 	<artifactId>sm-parent</artifactId>
-	<version>0.0.6-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>sm-parent</name>
 	<description>Parent project for Sport Management server side applications</description>
 	<packaging>pom</packaging>
