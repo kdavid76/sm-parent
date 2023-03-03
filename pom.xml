@@ -11,14 +11,14 @@
 
 	<groupId>com.sportmanagement.bkk</groupId>
 	<artifactId>sm-parent</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<name>sm-parent</name>
 	<description>Parent project for Sport Management server side applications</description>
 	<packaging>pom</packaging>
 
 	<properties>
 		<java.version>17</java.version>
-		<kotlin.version>1.7.20</kotlin.version>
+		<kotlin.version>1.8.10</kotlin.version>
 		<kotlin-logging.version>3.0.0</kotlin-logging.version>
 		<mockk.version>1.13.2</mockk.version>
 		<springmockk.version>3.1.1</springmockk.version>
