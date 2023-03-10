@@ -23,11 +23,17 @@ pipeline  {
                     userRemoteConfigs: [[url: env.GITHUB_PATH]]
                 ])
                 script {
-                    bela = sh (
+                    def commitMessage = sh (
                         script: 'git log -1 --pretty=%B',
                         returnStdout: true
                     )
-                    throw new FlowInterruptedException(Result.SUCCESS)
+                    def hasSummaryMatch = (output =~ /.*\[skip ci\].*/)
+                    echo ("hasSummaryMatch = " + hasSummaryMatch)
+
+                    if (hasSummaryMatch) {
+                        currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
+                        sleep(1)   // Interrupt is not blocking and does not take effect immediately.
+                    }
                 }
             }
         }
