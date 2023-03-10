@@ -24,7 +24,7 @@ pipeline  {
                 ])
                 script {
                     bela = sh ('git log -1 --pretty=%B')
-                    echo "$bela"
+                    echo "${bela}"
                 }
             }
         }
