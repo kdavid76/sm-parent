@@ -25,6 +25,7 @@ pipeline  {
                 scmSkip(deleteBuild: true, skipPattern:'.*\\[skip ci\\].*')
             }
         }
+
         stage('Build') {
             steps {
                 sh '''
