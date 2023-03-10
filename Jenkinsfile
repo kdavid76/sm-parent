@@ -1,6 +1,5 @@
 
 pipeline  {
-    def autoCancelled = false
     agent { label 'kubeagent' }
     options {
         // This is required if you want to clean before build
@@ -15,10 +14,11 @@ pipeline  {
         git 'default'
     }
     stages {
-        try
-        {
-            stage('Checkout') {
-                steps {
+        stage('Checkout') {
+            def autoCancelled = false
+            try
+            {
+                    steps {
                     cleanWs()
                     checkout([
                         $class: 'GitSCM',
@@ -33,16 +33,16 @@ pipeline  {
                     echo "Bela: ${bela}"
                     error('Stopping early…')
                 }
+            } catch (e) {
+                if (autoCancelled) {
+                    currentBuild.result = 'SUCCESS'
+                    echo('Test if it is really doing it or not')
+                    // return here instead of throwing error to keep the build "green"
+                    return
+                }
+                // normal error handling
+                throw e
             }
-        } catch (e) {
-            if (autoCancelled) {
-                currentBuild.result = 'SUCCESS'
-                echo('Test if it is really doing it or not')
-                // return here instead of throwing error to keep the build "green"
-                return
-            }
-            // normal error handling
-            throw e
         }
         stage('Build') {
             steps {
