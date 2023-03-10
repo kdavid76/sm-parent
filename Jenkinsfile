@@ -22,6 +22,7 @@ pipeline  {
                     branches: [[name: env.BRANCH_NAME]],
                     userRemoteConfigs: [[url: env.GITHUB_PATH]]
                 ])
+                scmSkip(deleteBuild: true, skipPattern:'.*\\[skip ci\\].*')
             }
         }
 
