@@ -22,8 +22,10 @@ pipeline  {
                     branches: [[name: env.BRANCH_NAME]],
                     userRemoteConfigs: [[url: env.GITHUB_PATH]]
                 ])
-                bela = sh ('git log -1 --pretty=%B')
-                echo $beta
+                script {
+                    bela = sh ('git log -1 --pretty=%B')
+                    echo $bela
+                }
             }
         }
 
