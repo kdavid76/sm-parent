@@ -23,7 +23,7 @@ pipeline  {
                     userRemoteConfigs: [[url: env.GITHUB_PATH]]
                 ])
                 script {
-                    def commitMessage = sh (
+                    def output = sh (
                         script: 'git log -1 --pretty=%B',
                         returnStdout: true
                     )
