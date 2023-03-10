@@ -27,7 +27,7 @@ pipeline  {
                         script: 'git log -1 --pretty=%B',
                         returnStdout: true
                     )
-                    currentBuild.getRawBuild().getExecutor().interrupt(Result.ABORTED)
+                    currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
                     sleep(1)   // Interrupt is not blocking and does not take effect immediately.
                 }
             }
