@@ -164,12 +164,12 @@
 		<repository>
 			<id>central</id>
 			<name>4626f94ce986-releases</name>
-			<url>https://sportsmanagement.jfrog.io/artifactory/bkk-libs-release-local</url>
+			<url>https://sportsmanagement.jfrog.io/artifactory/bkk-local-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>4626f94ce986-snapshots</name>
-			<url>https://sportsmanagement.jfrog.io/artifactory/bkk-libs-snapshot-local</url>
+			<url>https://sportsmanagement.jfrog.io/artifactory/bkk-local-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
