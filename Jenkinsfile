@@ -14,27 +14,35 @@ pipeline  {
         git 'default'
     }
     stages {
-        stage('Checkout') {
-            steps {
-                cleanWs()
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: env.BRANCH_NAME]],
-                    userRemoteConfigs: [[url: env.GITHUB_PATH]]
-                ])
-                script {
+        def autoCancelled = false
+        try
+        {
+            stage('Checkout') {
+                steps {
+                    cleanWs()
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: env.BRANCH_NAME]],
+                        userRemoteConfigs: [[url: env.GITHUB_PATH]]
+                    ])
                     bela = sh (
                         script: 'git log -1 --pretty=%B',
                         returnStdout: true
                     )
                     echo "Bela: ${bela}"
-                    currentBuild.result = 'SUCCESS'
-                    success('Stopping early…')
-
+                    error('Stopping early…')
                 }
             }
+        } catch (e) {
+            if (autoCancelled) {
+                currentBuild.result = 'SUCCESS'
+                echo('Skipping mail notification')
+                // return here instead of throwing error to keep the build "green"
+                return
+            }
+            // normal error handling
+            throw e
         }
-
         stage('Build') {
             steps {
                 sh ('mvn clean package')
