@@ -37,7 +37,7 @@ pipeline  {
         } catch (e) {
             if (autoCancelled) {
                 currentBuild.result = 'SUCCESS'
-                echo('Test if it's really doing it or not')
+                echo('Test if it is really doing it or not')
                 // return here instead of throwing error to keep the build "green"
                 return
             }
