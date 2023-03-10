@@ -22,15 +22,14 @@ pipeline  {
                     branches: [[name: env.BRANCH_NAME]],
                     userRemoteConfigs: [[url: env.GITHUB_PATH]]
                 ])
-                scmSkip(deleteBuild: true, skipPattern:'.*\\[skip ci\\].*')
+                bela = sh ('git log -1 --pretty=%B')
+                echo $beta
             }
         }
 
         stage('Build') {
             steps {
-                sh '''
-                    mvn clean package
-                '''
+                sh ('mvn clean package')
             }
         }
     }
