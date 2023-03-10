@@ -1,5 +1,6 @@
 
 pipeline  {
+    def autoCancelled = false
     agent { label 'kubeagent' }
     options {
         // This is required if you want to clean before build
@@ -14,7 +15,6 @@ pipeline  {
         git 'default'
     }
     stages {
-        def autoCancelled = false
         try
         {
             stage('Checkout') {
@@ -29,6 +29,7 @@ pipeline  {
                         script: 'git log -1 --pretty=%B',
                         returnStdout: true
                     )
+                    autoCancelled = true
                     echo "Bela: ${bela}"
                     error('Stopping early…')
                 }
@@ -36,7 +37,7 @@ pipeline  {
         } catch (e) {
             if (autoCancelled) {
                 currentBuild.result = 'SUCCESS'
-                echo('Skipping mail notification')
+                echo('Test if it's really doing it or not')
                 // return here instead of throwing error to keep the build "green"
                 return
             }
