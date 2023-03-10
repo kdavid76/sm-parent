@@ -22,11 +22,13 @@ pipeline  {
                     branches: [[name: env.BRANCH_NAME]],
                     userRemoteConfigs: [[url: env.GITHUB_PATH]]
                 ])
-                bela = sh (
-                    script: 'git log -1 --pretty=%B',
-                    returnStdout: true
-                )
-                echo "Bela: ${bela}"
+                script {
+                    bela = sh (
+                        script: 'git log -1 --pretty=%B',
+                        returnStdout: true
+                    )
+                    echo "Bela: ${bela}"
+                }
             }
         }
 
