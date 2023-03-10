@@ -29,7 +29,7 @@ pipeline  {
                     )
                     echo "Bela: ${bela}"
                     currentBuild.result = 'SUCCESS'
-                    error('Stopping early…')
+                    success('Stopping early…')
 
                 }
             }
