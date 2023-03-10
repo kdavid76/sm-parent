@@ -23,26 +23,12 @@ pipeline  {
                     userRemoteConfigs: [[url: env.GITHUB_PATH]]
                 ])
                 script {
-                    autoCancelled = false
-                    try
-                    {
-                        bela = sh (
-                            script: 'git log -1 --pretty=%B',
-                            returnStdout: true
-                        )
-                        autoCancelled = true
-                        echo "Bela: ${bela}"
-                        error('Stopping early…')
-                    } catch (e) {
-                        if (autoCancelled) {
-                            currentBuild.result = 'SUCCESS'
-                            echo('Test if it is really doing it or not')
-                            // return here instead of throwing error to keep the build "green"
-                            return
-                        }
-                        // normal error handling
-                        throw e
-                    }
+                    bela = sh (
+                        script: 'git log -1 --pretty=%B',
+                        returnStdout: true
+                    )
+                    currentBuild.getRawBuild().getExecutor().interrupt(Result.ABORTED)
+                    sleep(1)   // Interrupt is not blocking and does not take effect immediately.
                 }
             }
         }
