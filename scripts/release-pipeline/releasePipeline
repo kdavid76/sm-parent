@@ -51,7 +51,7 @@ pipeline {
                     steps {
                         sh('git add .')
                         sh("git commit -m 'SM-PARENT: Release ${NEXT_RELEASE}'")
-                        sh("git tag -a 'v@${NEXT_RELEASE}' -m 'Release ${NEXT_RELEASE}' HEAD")
+                        sh("git tag -a 'v@${NEXT_RELEASE}' -m 'Release ${NEXT_RELEASE} HEAD [skip ci]'")
                         sh('git push --follow-tags')
                     }
                 }
@@ -74,7 +74,7 @@ pipeline {
         stage('Push snapshot to GitHub') {
             steps {
                 sh('git add .')
-                sh("git commit -m 'SM-PARENT: Next snapshot ${NEXT_SNAPSHOT}'")
+                sh("git commit -m 'SM-PARENT: Next snapshot ${NEXT_SNAPSHOT} [skip ci]'")
                 sh('git push')
             }
         }
