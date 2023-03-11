@@ -17,6 +17,7 @@ pipeline {
         maven 'mvn-3.8.7'
         git 'default'
     }
+
     stages {
         stage('Checkout') {
             steps {
@@ -31,6 +32,7 @@ pipeline {
                 sh('git checkout master')
             }
         }
+
         stage('Calculate release version') {
             steps {
                 script {
@@ -40,11 +42,13 @@ pipeline {
                 changePomVersion("${NEXT_RELEASE}")
             }
         }
+
         stage('Build release artifacts') {
             steps {
                 sh 'mvn clean package'
             }
         }
+
         stage('Deploy') {
             parallel {
                 stage('Push to GitHub') {
@@ -62,6 +66,7 @@ pipeline {
                 }
             }
         }
+
         stage('Calculate next snapshot version') {
             steps {
                 script {
