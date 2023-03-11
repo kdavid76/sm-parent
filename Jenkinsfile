@@ -29,7 +29,8 @@ pipeline  {
                     )
                     echo "Last commit message: ${output}"
                     def matcher = output =~ /.*\[skip ci\].*/
-
+                    def result = matcher.matches()
+                    echo "Result: ${result}"
                     if (matcher.matches() == true) {
                         currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
                         sleep(1)   // Interrupt is not blocking and does not take effect immediately.
