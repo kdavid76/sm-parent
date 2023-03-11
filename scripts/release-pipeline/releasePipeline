@@ -17,6 +17,7 @@ pipeline {
         maven 'mvn-3.8.7'
         git 'default'
     }
+
     stages {
         stage('Checkout') {
             steps {
@@ -31,6 +32,7 @@ pipeline {
                 sh('git checkout master')
             }
         }
+
         stage('Calculate release version') {
             steps {
                 script {
@@ -40,18 +42,20 @@ pipeline {
                 changePomVersion("${NEXT_RELEASE}")
             }
         }
+
         stage('Build release artifacts') {
             steps {
                 sh 'mvn clean package'
             }
         }
+
         stage('Deploy') {
             parallel {
                 stage('Push to GitHub') {
                     steps {
                         sh('git add .')
-                        sh("git commit -m 'SM-PARENT: Release ${NEXT_RELEASE}'")
-                        sh("git tag -a 'v@${NEXT_RELEASE}' -m 'Release ${NEXT_RELEASE} HEAD [skip ci]'")
+                        sh("git commit -m '[skip ci] SM-PARENT: Release ${NEXT_RELEASE}'")
+                        sh("git tag -a 'v@${NEXT_RELEASE}' -m 'Release ${NEXT_RELEASE} HEAD'")
                         sh('git push --follow-tags')
                     }
                 }
@@ -62,6 +66,7 @@ pipeline {
                 }
             }
         }
+
         stage('Calculate next snapshot version') {
             steps {
                 script {
@@ -71,10 +76,11 @@ pipeline {
                 changePomVersion("${NEXT_SNAPSHOT}")
             }
         }
+
         stage('Push snapshot to GitHub') {
             steps {
                 sh('git add .')
-                sh("git commit -m 'SM-PARENT: Next snapshot ${NEXT_SNAPSHOT} [skip ci]'")
+                sh("git commit -m '[skip ci] SM-PARENT: Next snapshot ${NEXT_SNAPSHOT}'")
                 sh('git push')
             }
         }
