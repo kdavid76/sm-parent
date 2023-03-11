@@ -28,7 +28,7 @@ pipeline  {
                         returnStdout: true
                     )
                     echo "Last commit message: ${output}"
-                    def pattern ~/.*[skip ci].*/
+                    def pattern = ~/.*[skip ci].*/
                     def matcher = output =~ pattern
                     def result = matcher.find()
                     def size = matcher.size()
