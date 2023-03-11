@@ -28,10 +28,10 @@ pipeline  {
                         returnStdout: true
                     )
                     echo "Last commit message: ${output}"
-                    def matcher = output =~ /.*\[skip ci\].*/
+                    def matcher = output =~ /.*[skip ci].*/
                     def result = matcher.matches()
                     echo "Result: ${result}"
-                    if (matcher.matches() == true) {
+                    if (matcher.matches()) {
                         currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
                         sleep(1)   // Interrupt is not blocking and does not take effect immediately.
                     }
