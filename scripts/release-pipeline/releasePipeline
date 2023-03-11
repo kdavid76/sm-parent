@@ -76,6 +76,7 @@ pipeline {
                 changePomVersion("${NEXT_SNAPSHOT}")
             }
         }
+
         stage('Push snapshot to GitHub') {
             steps {
                 sh('git add .')
