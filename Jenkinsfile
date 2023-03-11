@@ -27,10 +27,10 @@ pipeline  {
                         script: 'git log -1 --pretty=%B',
                         returnStdout: true
                     )
-                    def hasSummaryMatch = (output =~ /.*\[skip ci\].*/)
-                    echo ("hasSummaryMatch = " + hasSummaryMatch)
+                    echo "Last commit message: ${output}"
+                    def matcher = output =~ /.*\[skip ci\].*/
 
-                    if (hasSummaryMatch) {
+                    if (matcher.size >= 0) {
                         currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
                         sleep(1)   // Interrupt is not blocking and does not take effect immediately.
                     }
