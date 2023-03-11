@@ -28,8 +28,8 @@ pipeline  {
                         returnStdout: true
                     )
                     echo "Last commit message: ${output}"
-                    def endsWiths = output.endsWith("[skip ci]")
-                    echo "Result: ${endsWiths}"
+                    def startsWiths = output.startsWith("[skip ci]")
+                    echo "Result: ${startsWiths}"
                     if (endsWiths) {
                         currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
                         sleep(1)   // Interrupt is not blocking and does not take effect immediately.
