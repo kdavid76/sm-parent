@@ -30,7 +30,7 @@ pipeline  {
                     echo "Last commit message: ${output}"
                     def matcher = output =~ /.*[skip ci].*/
                     def result = matcher.matches()
-                    def count = matcher.getCount()
+                    def count = matcher.asBoolean()
                     echo "Result: ${result}"
                     echo "Count: ${count}"
                     if (matcher.matches()) {
