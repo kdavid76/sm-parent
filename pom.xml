@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.3</version>
+		<version>3.1.3</version>
 		<!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>com.sportmanagement.bkk</groupId>
 	<artifactId>sm-parent</artifactId>
-	<version>0.1.3-SNAPSHOT</version>
+	<version>0.1.6-SNAPSHOT</version>
 	<name>sm-parent</name>
 	<description>Parent project for Sport Management server side applications</description>
 	<packaging>pom</packaging>
@@ -21,17 +21,23 @@
 		<kotlin.version>1.8.10</kotlin.version>
 		<kotlin-logging.version>3.0.0</kotlin-logging.version>
 		<mockk.version>1.13.2</mockk.version>
-		<springmockk.version>3.1.1</springmockk.version>
+		<springmockk.version>4.0.2</springmockk.version>
 		<jjwt.version>0.11.5</jjwt.version>
 		<jackson.databind.version>2.13.4.2</jackson.databind.version>
 		<jackson.jsr310.version>2.13.4</jackson.jsr310.version>
-		<snakeyaml.version>1.33</snakeyaml.version>
+		<snakeyaml.version>2.2</snakeyaml.version>
 		<kotest.version>5.5.2</kotest.version>
 		<klint.version>1.16.0</klint.version>
 		<maven.release.plugin.version>3.0.0-M6</maven.release.plugin.version>
 		<development.connection.url>scm:git:git@github.com:kdavid76/sm-parent.git</development.connection.url>
+		<avro.version>1.11.1</avro.version>
+		<avro4k-core.version>1.7.0</avro4k-core.version>
+		<confluent.version>7.3.3</confluent.version>
 		<maven.jib.version>3.3.1</maven.jib.version>
 		<maven.jib.image>gcr.io/distroless/java17-debian11</maven.jib.image>
+		<serialization.version>1.5.0</serialization.version>
+		<github.global.server>github</github.global.server>
+		<github.global.username>davidkrisztian76@gmail.com</github.global.username>
 	</properties>
 
 	<dependencyManagement>
@@ -78,6 +84,44 @@
 				<groupId>io.jsonwebtoken</groupId>
 				<artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
 				<version>${jjwt.version}</version>
+			</dependency>
+
+			<!-- K A F K A -->
+			<dependency>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro</artifactId>
+				<version>${avro.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.confluent</groupId>
+				<artifactId>kafka-avro-serializer</artifactId>
+				<version>${confluent.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.confluent</groupId>
+				<artifactId>kafka-streams-avro-serde</artifactId>
+				<version>${confluent.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.avro-kotlin.avro4k</groupId>
+				<artifactId>avro4k-core</artifactId>
+				<version>${avro4k-core.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jetbrains.kotlinx</groupId>
+				<artifactId>kotlinx-serialization-json</artifactId>
+				<type>pom</type>
+				<version>${serialization.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-maven-serialization</artifactId>
+				<version>${kotlin.version}</version>
 			</dependency>
 
 			<!-- T E S T  -->
@@ -145,13 +189,55 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>${maven.release.plugin.version}</version>
 				</plugin>
+
 				<plugin>
 					<groupId>com.google.cloud.tools</groupId>
 					<artifactId>jib-maven-plugin</artifactId>
 					<version>${maven.jib.version}</version>
 				</plugin>
+
+				<plugin>
+					<groupId>org.apache.avro</groupId>
+					<artifactId>avro-maven-plugin</artifactId>
+					<version>${avro.version}</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<altDeploymentRepository>internal.repo::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.11</version>
+				<configuration>
+					<message>Maven artifacts for ${project.name} v${project.version}</message>  <!-- git commit message -->
+					<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
+					<branch>refs/heads/main</branch>                       <!-- remote branch name -->
+					<includes><include>**/*</include></includes>
+					<repositoryName>maven-repo</repositoryName>      <!-- github repo name -->
+					<repositoryOwner>kdavid76</repositoryOwner>    <!-- github username  -->
+					<server>github</server>
+					<merge>true</merge>
+				</configuration>
+				<executions>
+					<!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 	<scm>
@@ -161,6 +247,7 @@
 	</scm>
 
 	<distributionManagement>
+		<!--
 		<repository>
 			<id>central</id>
 			<name>4626f94ce986-releases</name>
@@ -171,6 +258,12 @@
 			<name>4626f94ce986-snapshots</name>
 			<url>https://sportsmanagement.jfrog.io/artifactory/bkk-local-snapshots</url>
 		</snapshotRepository>
+		-->
+		<repository>
+			<id>internal.repo</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${project.build.directory}/mvn-repo</url>
+		</repository>
 	</distributionManagement>
 
 	<profiles>
