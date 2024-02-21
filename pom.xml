@@ -178,12 +178,12 @@
 			<name>4626f94ce986-snapshots</name>
 			<url>https://sportsmanagement.jfrog.io/artifactory/bkk-local-snapshots</url>
 		</snapshotRepository>
-		-->
 		<repository>
 			<id>internal.repo</id>
 			<name>Temporary Staging Repository</name>
 			<url>file://${project.build.directory}/mvn-repo</url>
 		</repository>
+		-->
 	</distributionManagement>
 
 	<profiles>
