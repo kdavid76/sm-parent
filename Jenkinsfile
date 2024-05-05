@@ -42,10 +42,5 @@ pipeline  {
                 sh ('mvn clean install')
             }
         }
-        stage('Push to Artifactory') {
-            steps {
-                sh ('mvn deploy')
-            }
-        }
     }
 }
