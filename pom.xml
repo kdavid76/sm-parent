@@ -11,10 +11,11 @@
 
 	<groupId>com.sportmanagement.bkk</groupId>
 	<artifactId>sm-parent</artifactId>
-	<version>0.1.9</version>
+	<version>0.1.8-SNAPSHOT</version>
 	<name>sm-parent</name>
 	<description>Parent project for Sport Management server side applications</description>
 	<packaging>pom</packaging>
+	<url>https://github.com/kdavid76/sm-parent</url>
 
 	<properties>
 		<java.version>17</java.version>
@@ -29,7 +30,9 @@
 		<kotest.version>5.5.2</kotest.version>
 		<klint.version>1.16.0</klint.version>
 		<maven.release.plugin.version>3.0.0-M6</maven.release.plugin.version>
-		<development.connection.url>scm:git:git@github.com:kdavid76/sm-parent.git</development.connection.url>
+		<development.developer.connection.url>scm:git:git@github.com:kdavid76/sm-parent.git</development.developer.connection.url>
+		<development.general.url>https://github.com/kdavid76/sm-parent</development.general.url>
+		<development.connection.url>scm:git:https://github.com/kdavid76/sm-parent.git</development.connection.url>
 		<avro.version>1.11.1</avro.version>
 		<avro4k-core.version>1.7.0</avro4k-core.version>
 		<kafka-avro-serializer.version>7.4.0</kafka-avro-serializer.version>
@@ -113,7 +116,6 @@
 	</dependencyManagement>
 
 	<build>
-
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -174,12 +176,12 @@
 					<configuration>
 						<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
 						<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
-						<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
-						<branch>refs/heads/main</branch>                       <!-- remote branch name -->
-						<includes><include>**/*</include></includes>
-						<repositoryName>maven-repo</repositoryName>      <!-- github repo name -->
-						<repositoryOwner>kdavid76</repositoryOwner>    <!-- github username  -->
 						<merge>true</merge>
+						<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+						<branch>refs/heads/main</branch>
+						<includes><include>**/*</include></includes>
+						<repositoryName>maven-repo</repositoryName>
+						<repositoryOwner>kdavid76</repositoryOwner>
 					</configuration>
 					<executions>
 						<!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
@@ -199,17 +201,19 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
 			</plugin>
+			<!--
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
 			</plugin>
+			-->
 		</plugins>
 	</build>
 
 	<scm>
-		<developerConnection>${development.connection.url}</developerConnection>
-		<url>https://github.com/kdavid76/sm-parent</url>
-		<tag>HEAD</tag>
+		<developerConnection>${development.developer.connection.url}</developerConnection>
+		<url>${development.general.url}</url>
+		<connection>${development.connection.url}</connection>
 	</scm>
 
 	<distributionManagement>
