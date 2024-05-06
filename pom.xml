@@ -201,12 +201,10 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
 			</plugin>
-			<!--
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
 			</plugin>
-			-->
 		</plugins>
 	</build>
 
@@ -222,6 +220,11 @@
 			<name>GitHub kdavid76 Apache Maven Packages</name>
 			<url>https://maven.pkg.github.com/kdavid76/maven-repo</url>
 		</repository>
+		<snapshotRepository>
+			<id>github</id>
+			<name>GitHub kdavid76 Apache Maven Snapshot Packages</name>
+			<url>https://maven.pkg.github.com/kdavid76/maven-repo</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<profiles>
