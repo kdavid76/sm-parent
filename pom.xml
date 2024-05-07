@@ -170,9 +170,9 @@
 				</plugin>
 
 				<plugin>
-					<groupId>com.github.github</groupId>
-					<artifactId>site-maven-plugin</artifactId>
-					<version>0.12</version>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>4.0.0-M13</version>
 					<configuration>
 						<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
 						<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
@@ -202,8 +202,8 @@
 				<artifactId>maven-deploy-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
