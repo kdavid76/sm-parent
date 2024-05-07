@@ -177,7 +177,7 @@
 						<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
 						<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
 						<merge>true</merge>
-						<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+						<outputDirectory>${project.build.directory}/maven-repo</outputDirectory>
 						<branch>refs/heads/main</branch>
 						<includes><include>**/*</include></includes>
 						<repositoryName>maven-repo</repositoryName>
