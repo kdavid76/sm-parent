@@ -60,6 +60,30 @@ pipeline {
 
         stage('Push to artifactory') {
             steps {
+                sh 'ls -la /home/jenkins/agent/workspace/'
+            }
+            steps {
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/'
+            }
+            steps {
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/target/'
+            }
+            steps {
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/target/maven-repo/'
+            }
+            steps {
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/target/maven-repo/com/'
+            }
+            steps {
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/target/maven-repo/com/sportmanagement/'
+            }
+            steps {
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/target/maven-repo/com/sportmanagement/bkk/'
+            }
+            steps {
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/target/maven-repo/com/sportmanagement/bkk/sm-parent/'
+            }
+            steps {
                 sh 'mvn deploy -X'
             }
         }
