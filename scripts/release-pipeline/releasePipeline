@@ -50,19 +50,17 @@ pipeline {
         }
 
         stage('Deploy') {
-            parallel {
-                stage('Push to GitHub') {
-                    steps {
-                        sh('git add .')
-                        sh("git commit -m '[skip ci] SM-PARENT: Release ${NEXT_RELEASE}'")
-                        sh("git tag -a 'v@${NEXT_RELEASE}' -m 'Release ${NEXT_RELEASE} HEAD'")
-                        sh('git push --follow-tags')
-                    }
+            stage('Push Tag to GitHub') {
+                steps {
+                    sh('git add .')
+                    sh("git commit -m '[skip ci] SM-PARENT: Release ${NEXT_RELEASE}'")
+                    sh("git tag -a 'v@${NEXT_RELEASE}' -m 'Release ${NEXT_RELEASE} HEAD'")
+                    sh('git push --follow-tags')
                 }
-                stage('Push to artifactory') {
-                    steps {
-                        sh 'mvn deploy'
-                    }
+            }
+            stage('Push to artifactory') {
+                steps {
+                    sh 'mvn deploy'
                 }
             }
         }
