@@ -46,11 +46,13 @@ pipeline {
         stage('Build release artifacts') {
             steps {
                 sh 'mvn clean package'
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/'
             }
         }
 
         stage('Push Tag to GitHub') {
             steps {
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/'
                 sh('git add .')
                 sh("git commit -m '[skip ci] SM-PARENT: Release ${NEXT_RELEASE}'")
                 sh("git tag -a 'v@${NEXT_RELEASE}' -m 'Release ${NEXT_RELEASE} HEAD'")
@@ -60,6 +62,7 @@ pipeline {
 
         stage('Push to artifactory') {
             steps {
+                sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/'
                 sh 'mvn deploy -X'
                 sh 'ls -la /home/jenkins/agent/workspace/'
                 sh 'ls -la /home/jenkins/agent/workspace/SM-PARENT-Release/'
